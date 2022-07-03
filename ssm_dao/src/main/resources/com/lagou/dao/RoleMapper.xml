@@ -27,4 +27,14 @@
         WHERE r.id = #{roleId}
     </select>
 
+    <!-- 根据角色id从中间表中删除角色关联的菜单信息 -->
+    <delete id="deleteRoleContextMenu" parameterType="int">
+        delete from role_menu_relation where role_id = #{roleId}
+    </delete>
+
+    <!-- 为角色分配菜单 -->
+    <insert id="roleContextMenu" parameterType="role_menu_relation">
+        insert into role_menu_relation values(null,#{menuId},#{roleId},#{createdTime},#{updatedTime},#{createdBy},#{updatedBy})
+    </insert>
+
 </mapper>

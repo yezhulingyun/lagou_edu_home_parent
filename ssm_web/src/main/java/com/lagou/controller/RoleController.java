@@ -3,6 +3,7 @@ package com.lagou.controller;
 import com.lagou.domain.Menu;
 import com.lagou.domain.ResponseResult;
 import com.lagou.domain.Role;
+import com.lagou.domain.RoleMenuVO;
 import com.lagou.service.MenuService;
 import com.lagou.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,14 @@ public class RoleController {
     public ResponseResult findMenuByRoleId(int roleId) {
         List<Integer> list = roleService.findMenuByRoleId(roleId);
         return new ResponseResult(true, 200, "根据角色ID查询关联菜单ID成功", list);
+    }
+
+    /**
+     * 为角色分配菜单信息
+     */
+    @RequestMapping("/RoleContextMenu")
+    public ResponseResult roleContextMenu(@RequestBody RoleMenuVO roleMenuVO) {
+        roleService.roleContextMenu(roleMenuVO);
+        return new ResponseResult(true, 200, "响应成功", null);
     }
 }
