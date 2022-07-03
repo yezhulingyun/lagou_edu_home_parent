@@ -22,4 +22,13 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> menuList = menuMapper.findSubMenuListByPid(pid);
         return menuList;
     }
+
+    /**
+     * 查询所有菜单信息
+     */
+    @Override
+    public List<Menu> findAllMenu() {
+        List<Menu> allMenu = menuMapper.findAllMenu();
+        return allMenu;
+    }
 }

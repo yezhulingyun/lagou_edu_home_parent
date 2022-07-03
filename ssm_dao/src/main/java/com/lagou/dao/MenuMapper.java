@@ -10,4 +10,9 @@ public interface MenuMapper {
      * 查询所有的父子菜单信息
      */
     public List<Menu> findSubMenuListByPid(int pid);
+
+    /**
+     * 查询所有菜单信息
+     */
+    public List<Menu> findAllMenu();
 }
