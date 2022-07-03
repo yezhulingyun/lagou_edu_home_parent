@@ -62,4 +62,13 @@ public class RoleController {
         roleService.roleContextMenu(roleMenuVO);
         return new ResponseResult(true, 200, "响应成功", null);
     }
+
+    /**
+     * 删除角色
+     */
+    @RequestMapping("/deleteRole")
+    public ResponseResult deleteRole(int id) {
+        roleService.deleteRole(id);
+        return new ResponseResult(true, 200, "删除角色成功", null);
+    }
 }

@@ -58,4 +58,15 @@ public class RoleServiceImpl implements RoleService {
             roleMapper.roleContextMenu(role_menu_relation);
         }
     }
+
+    /**
+     * 删除角色
+     */
+    @Override
+    public void deleteRole(int id) {
+        // 根据角色id清空中间表中角色和菜单的关联关系
+        roleMapper.deleteRoleContextMenu(id);
+        // 删除角色
+        roleMapper.deleteRole(id);
+    }
 }

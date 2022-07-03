@@ -21,4 +21,9 @@ public interface RoleService {
      * 为角色分配菜单信息
      */
     public void roleContextMenu(RoleMenuVO roleMenuVO);
+
+    /**
+     * 删除角色
+     */
+    public void deleteRole(int id);
 }

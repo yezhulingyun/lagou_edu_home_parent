@@ -26,4 +26,9 @@ public interface RoleMapper {
      * 为角色分配菜单
      */
     public void roleContextMenu(Role_menu_relation role_menu_relation);
+
+    /**
+     * 删除角色
+     */
+    public void deleteRole(int id);
 }
