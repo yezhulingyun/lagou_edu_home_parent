@@ -15,4 +15,9 @@ public interface MenuService {
      * 查询所有菜单信息
      */
     public List<Menu> findAllMenu();
+
+    /**
+     * 根据id查询菜单信息
+     */
+    public Menu findMenuById(int id);
 }

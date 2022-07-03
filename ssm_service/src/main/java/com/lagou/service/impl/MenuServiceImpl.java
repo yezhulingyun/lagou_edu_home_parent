@@ -31,4 +31,12 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> allMenu = menuMapper.findAllMenu();
         return allMenu;
     }
+
+    /**
+     * 根据id查询菜单信息
+     */
+    @Override
+    public Menu findMenuById(int id) {
+        return menuMapper.findMenuById(id);
+    }
 }

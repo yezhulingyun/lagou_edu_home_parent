@@ -32,4 +32,9 @@
         select * from menu
     </select>
 
+    <!-- 根据id查询菜单信息 -->
+    <select id="findMenuById" parameterType="int" resultType="menu">
+        select * from menu where id = #{id}
+    </select>
+
 </mapper>
