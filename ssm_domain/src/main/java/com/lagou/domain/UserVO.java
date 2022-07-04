@@ -3,6 +3,7 @@ package com.lagou.domain;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 public class UserVO {
 
@@ -18,6 +19,9 @@ public class UserVO {
     // 注册结束时间
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endCreateTime;
+
+    private Integer userId;
+    private List<Integer> roleIdList;
 
     public Integer getCurrentPage() {
         return currentPage;
@@ -57,5 +61,21 @@ public class UserVO {
 
     public void setEndCreateTime(Date endCreateTime) {
         this.endCreateTime = endCreateTime;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public List<Integer> getRoleIdList() {
+        return roleIdList;
+    }
+
+    public void setRoleIdList(List<Integer> roleIdList) {
+        this.roleIdList = roleIdList;
     }
 }

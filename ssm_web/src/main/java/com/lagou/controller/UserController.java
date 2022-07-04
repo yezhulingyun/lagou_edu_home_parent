@@ -87,4 +87,13 @@ public class UserController {
         List<Role> roleList = userService.findUserRoleById(id);
         return new ResponseResult(true, 200, "分配角色回显成功", roleList);
     }
+
+    /**
+     * 为用户分配角色
+     */
+    @RequestMapping("/userContextRole")
+    public ResponseResult userContextRole(@RequestBody UserVO userVO) {
+        userService.userContextRole(userVO);
+        return new ResponseResult(true, 200, "分配角色成功", null);
+    }
 }

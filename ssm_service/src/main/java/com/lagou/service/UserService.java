@@ -33,4 +33,9 @@ public interface UserService {
      * 根据用户id查询该用户关联的角色信息
      */
     public List<Role> findUserRoleById(int id);
+
+    /**
+     * 为用户分配角色
+     */
+    public void userContextRole(UserVO userVO);
 }

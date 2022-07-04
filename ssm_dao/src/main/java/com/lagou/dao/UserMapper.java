@@ -3,6 +3,7 @@ package com.lagou.dao;
 import com.lagou.domain.Role;
 import com.lagou.domain.User;
 import com.lagou.domain.UserVO;
+import com.lagou.domain.User_Role_relation;
 
 import java.util.List;
 
@@ -32,4 +33,14 @@ public interface UserMapper {
      * 根据用户id查询该用户关联的角色信息
      */
     public List<Role> findUserRoleById(int id);
+
+    /**
+     * 根据用户id清空中间表用户与角色的关联信息
+     */
+    public void deleteUserContextRole(int userId);
+
+    /**
+     * 为用户分配角色
+     */
+    public void userContextRole(User_Role_relation user_role_relation);
 }

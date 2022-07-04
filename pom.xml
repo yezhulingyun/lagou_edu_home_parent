@@ -20,6 +20,8 @@
         <spring.version>5.1.5.RELEASE</spring.version>
         <springmvc.version>5.1.5.RELEASE</springmvc.version>
         <mybatis.version>3.5.1</mybatis.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <!--锁定jar版本-->

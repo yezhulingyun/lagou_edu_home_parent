@@ -6,6 +6,7 @@ import com.lagou.dao.UserMapper;
 import com.lagou.domain.Role;
 import com.lagou.domain.User;
 import com.lagou.domain.UserVO;
+import com.lagou.domain.User_Role_relation;
 import com.lagou.service.UserService;
 import com.lagou.utils.Md5;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +81,31 @@ public class UserServiceImpl implements UserService {
     public List<Role> findUserRoleById(int id) {
         List<Role> roleList = userMapper.findUserRoleById(id);
         return roleList;
+    }
+
+    /**
+     * 为用户分配角色
+     */
+    @Override
+    public void userContextRole(UserVO userVO) {
+        // 1.根据用户id清空中间表中的用户与角色的关联关系
+        userMapper.deleteUserContextRole(userVO.getUserId());
+
+        // 2.重新在中间表中建立起该用户与角色的关联关系
+        for (Integer ri : userVO.getRoleIdList()) {
+            // 封装数据
+            User_Role_relation user_role_relation = new User_Role_relation();
+            user_role_relation.setUserId(userVO.getUserId());
+            user_role_relation.setRoleId(ri);
+
+            Date date = new Date();
+            user_role_relation.setCreatedTime(date);
+            user_role_relation.setUpdatedTime(date);
+            user_role_relation.setCreatedBy("system");
+            user_role_relation.setUpdatedBy("system");
+
+            // 调用mapper
+            userMapper.userContextRole(user_role_relation);
+        }
     }
 }
