@@ -16,4 +16,14 @@ public interface UserMapper {
      * 修改用户状态
      */
     public void updateUserStatus(User user);
+
+    /**
+     * 用户登录（根据手机号查询用户信息）
+     */
+    public User login(User user);
+
+    /**
+     * 用户注册
+     */
+    public void register(User user);
 }

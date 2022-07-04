@@ -25,4 +25,14 @@
         update user set status = #{status},update_time = #{updateTime} where id = #{id}
     </update>
 
+    <!-- 根据手机号查询用户信息 -->
+    <select id="login" parameterType="user" resultType="user">
+        select * from user where phone = #{phone}
+    </select>
+
+    <!-- 用户注册 -->
+    <insert id="register" parameterType="user">
+        insert into user(name,phone,password,create_time,update_time) values(#{name},#{phone},#{password},#{createTime},#{updateTime})
+    </insert>
+
 </mapper>

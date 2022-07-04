@@ -17,4 +17,14 @@ public interface UserService {
      * 修改用户状态
      */
     public void updateUserStatus(int id, String status);
+
+    /**
+     * 用户登录
+     */
+    public User login(User user) throws Exception;
+
+    /**
+     * 用户注册
+     */
+    public void register(User user) throws Exception;
 }
