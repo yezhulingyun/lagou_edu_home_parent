@@ -2,6 +2,7 @@ package com.lagou.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.lagou.domain.ResponseResult;
+import com.lagou.domain.Role;
 import com.lagou.domain.User;
 import com.lagou.domain.UserVO;
 import com.lagou.service.UserService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -75,5 +77,14 @@ public class UserController {
     public ResponseResult register(@RequestBody User user) throws Exception {
         userService.register(user);
         return new ResponseResult(true, 200, "用户注册成功", null);
+    }
+
+    /**
+     * 分配角色（回显）：根据用户id查询该用户关联的角色信息
+     */
+    @RequestMapping("/findUserRoleById")
+    public ResponseResult findUserRoleById(int id) {
+        List<Role> roleList = userService.findUserRoleById(id);
+        return new ResponseResult(true, 200, "分配角色回显成功", roleList);
     }
 }

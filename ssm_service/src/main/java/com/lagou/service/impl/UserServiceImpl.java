@@ -3,6 +3,7 @@ package com.lagou.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lagou.dao.UserMapper;
+import com.lagou.domain.Role;
 import com.lagou.domain.User;
 import com.lagou.domain.UserVO;
 import com.lagou.service.UserService;
@@ -70,5 +71,14 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(date);
         user.setUpdateTime(date);
         userMapper.register(user);
+    }
+
+    /**
+     * 根据用户id查询该用户关联的角色信息
+     */
+    @Override
+    public List<Role> findUserRoleById(int id) {
+        List<Role> roleList = userMapper.findUserRoleById(id);
+        return roleList;
     }
 }

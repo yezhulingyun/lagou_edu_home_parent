@@ -1,5 +1,6 @@
 package com.lagou.dao;
 
+import com.lagou.domain.Role;
 import com.lagou.domain.User;
 import com.lagou.domain.UserVO;
 
@@ -26,4 +27,9 @@ public interface UserMapper {
      * 用户注册
      */
     public void register(User user);
+
+    /**
+     * 根据用户id查询该用户关联的角色信息
+     */
+    public List<Role> findUserRoleById(int id);
 }

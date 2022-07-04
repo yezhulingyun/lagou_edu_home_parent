@@ -35,4 +35,15 @@
         insert into user(name,phone,password,create_time,update_time) values(#{name},#{phone},#{password},#{createTime},#{updateTime})
     </insert>
 
+    <!-- 根据用户id查询该用户关联的角色信息 -->
+    <select id="findUserRoleById" parameterType="int" resultType="role">
+        SELECT
+            *
+        FROM
+            roles r
+            INNER JOIN user_role_relation ur
+                ON r.id = ur.role_id
+        WHERE ur.user_id = #{id}
+    </select>
+
 </mapper>
