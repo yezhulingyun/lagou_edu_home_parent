@@ -6,6 +6,7 @@ import com.lagou.domain.User;
 import com.lagou.domain.UserVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -38,4 +39,9 @@ public interface UserService {
      * 为用户分配角色
      */
     public void userContextRole(UserVO userVO);
+
+    /**
+     * 获取用户拥有的权限，进行菜单的动态展示
+     */
+    public Map<String, Object> getUserPermissions(int userId);
 }

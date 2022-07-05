@@ -3,17 +3,13 @@ package com.lagou.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lagou.dao.UserMapper;
-import com.lagou.domain.Role;
-import com.lagou.domain.User;
-import com.lagou.domain.UserVO;
-import com.lagou.domain.User_Role_relation;
+import com.lagou.domain.*;
 import com.lagou.service.UserService;
 import com.lagou.utils.Md5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -107,5 +103,34 @@ public class UserServiceImpl implements UserService {
             // 调用mapper
             userMapper.userContextRole(user_role_relation);
         }
+    }
+
+    /**
+     * 获取用户拥有的权限，进行菜单的动态展示
+     */
+    @Override
+    public Map<String, Object> getUserPermissions(int userId) {
+        // 1. 根据用户id查询关联的角色信息
+        List<Role> roleList = userMapper.findUserRoleById(userId);
+        // 2. 把查询出的角色的id封装到集合中
+        List<Integer> roleIds = new ArrayList<>();
+        for (Role role : roleList) {
+            roleIds.add(role.getId());
+        }
+        // 3. 根据角色id查询关联的父级菜单信息
+        List<Menu> parentMenuList = userMapper.findParentMenuByRoleId(roleIds);
+        // 4. 根据父级菜单的id查询子级菜单信息
+        for (Menu menu : parentMenuList) {
+            List<Menu> subMenuList = userMapper.findSubMenuByPid(menu.getId());
+            menu.setSubMenuList(subMenuList);
+        }
+        // 5. 根据角色id查询关联的资源信息
+        List<Resource> resourceList = userMapper.findResourceByRoleId(roleIds);
+        // 6. 封装数据并返回
+        Map<String, Object> map = new HashMap<>();
+        map.put("menuList", parentMenuList);
+        map.put("resourceList", resourceList);
+
+        return map;
     }
 }

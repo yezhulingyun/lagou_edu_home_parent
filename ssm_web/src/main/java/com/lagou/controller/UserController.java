@@ -96,4 +96,26 @@ public class UserController {
         userService.userContextRole(userVO);
         return new ResponseResult(true, 200, "分配角色成功", null);
     }
+
+    /**
+     * 获取用户拥有的权限，进行菜单的动态展示
+     */
+    @RequestMapping("/getUserPermissions")
+    public ResponseResult getUserPermissions(HttpServletRequest request) {
+        // 1. 获取请求头中的token
+        String token = request.getHeader("Authorization");
+        // 2. 获取session中的access_token
+        HttpSession session = request.getSession();
+        String access_token = (String) session.getAttribute("access_token");
+        // 3. 判断token是否相等
+        if (token.equals(access_token)) {
+            // 获取session中的user_id
+            Integer user_id = (Integer) session.getAttribute("user_id");
+            // 调用service
+            Map<String, Object> map = userService.getUserPermissions(user_id);
+            return new ResponseResult(true, 200, "用户获取权限成功", map);
+        } else {
+            return new ResponseResult(false, 400, "用户获取权限失败", null);
+        }
+    }
 }

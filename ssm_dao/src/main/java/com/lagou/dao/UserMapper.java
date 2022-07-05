@@ -1,9 +1,6 @@
 package com.lagou.dao;
 
-import com.lagou.domain.Role;
-import com.lagou.domain.User;
-import com.lagou.domain.UserVO;
-import com.lagou.domain.User_Role_relation;
+import com.lagou.domain.*;
 
 import java.util.List;
 
@@ -43,4 +40,19 @@ public interface UserMapper {
      * 为用户分配角色
      */
     public void userContextRole(User_Role_relation user_role_relation);
+
+    /**
+     * 根据角色id查询用户关联的父级菜单信息
+     */
+    public List<Menu> findParentMenuByRoleId(List<Integer> roleIds);
+
+    /**
+     * 根据parent_id，查询子菜单信息
+     */
+    public List<Menu> findSubMenuByPid(Integer pid);
+
+    /**
+     * 根据角色id查询用户关联的资源信息
+     */
+    public List<Resource> findResourceByRoleId(List<Integer> roleIds);
 }

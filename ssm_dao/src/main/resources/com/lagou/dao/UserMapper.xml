@@ -57,4 +57,38 @@
         #{createdTime},#{updatedTime},#{createdBy},#{updatedBy})
     </insert>
 
+    <!-- 根据角色id查询用户关联的父级菜单信息 -->
+    <select id="findParentMenuByRoleId" parameterType="list" resultType="menu">
+        SELECT DISTINCT
+            m.*
+        FROM
+            menu m
+            INNER JOIN role_menu_relation rm
+                ON m.id = rm.menu_id
+        WHERE m.parent_id = - 1
+            AND rm.role_id IN
+        <foreach collection="list" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
+    <!-- 根据parent_id，查询子菜单信息 -->
+    <select id="findSubMenuByPid" parameterType="int" resultType="menu">
+        select * from menu where parent_id = #{pid}
+    </select>
+
+    <!-- 根据角色id查询用户关联的资源信息 -->
+    <select id="findResourceByRoleId" parameterType="list" resultType="resource">
+        SELECT DISTINCT
+            r.*
+        FROM
+            resource r
+            INNER JOIN role_resource_relation rr
+                ON r.id = rr.resource_id
+        WHERE rr.role_id IN
+        <foreach collection="list" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
 </mapper>
