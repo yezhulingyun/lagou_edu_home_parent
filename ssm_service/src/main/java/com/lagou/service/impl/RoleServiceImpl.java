@@ -1,15 +1,15 @@
 package com.lagou.service.impl;
 
 import com.lagou.dao.RoleMapper;
-import com.lagou.domain.Role;
-import com.lagou.domain.RoleMenuVO;
-import com.lagou.domain.Role_menu_relation;
+import com.lagou.domain.*;
 import com.lagou.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -94,5 +94,51 @@ public class RoleServiceImpl implements RoleService {
         roleMapper.deleteRoleContextMenu(id);
         // 删除角色
         roleMapper.deleteRole(id);
+    }
+
+    /**
+     * 根据角色id获取当前角色拥有的资源信息
+     */
+    @Override
+    public List<ResourceCategory> findResourceListByRoleId(int roleId) {
+        // 获取当前角色拥有的资源分类集合
+        List<ResourceCategory> resourceCategoryList = roleMapper.findResourceCategoryByRoleId(roleId);
+        // 将资源分类集合中的所有分类对象，以id为key、分类对象resourceCategory为value，存入map集合
+        Map<Integer, ResourceCategory> categoryMap = new HashMap<>();
+        for (ResourceCategory resourceCategory : resourceCategoryList) {
+            categoryMap.put(resourceCategory.getId(), resourceCategory);
+        }
+        // 获取当前角色拥有的资源信息集合
+        List<Resource> resourceList = roleMapper.findResourceByRoleId(roleId);
+        // 根据资源对象的categoryId属性，放入对应的资源分类下
+        for (Resource resource : resourceList) {
+            ResourceCategory resourceCategory = categoryMap.get(resource.getCategoryId());
+            resourceCategory.getResourceList().add(resource);
+        }
+        // 返回资源分类集合
+        return resourceCategoryList;
+    }
+
+    /**
+     * 为角色分配资源信息
+     */
+    @Override
+    public void roleContextResource(RoleResourceVO roleResourceVO) {
+        // 1. 根据角色id清空中间表中当前角色关联的资源信息
+        roleMapper.deleteRoleContextResource(roleResourceVO.getRoleId());
+        // 2. 重新在中间表中添加当前角色关联的资源信息
+        for (Integer ri : roleResourceVO.getResourceIdList()) {
+            // 封装数据
+            RoleResourceRelation roleResourceRelation = new RoleResourceRelation();
+            roleResourceRelation.setRoleId(roleResourceVO.getRoleId());
+            roleResourceRelation.setResourceId(ri);
+            Date date = new Date();
+            roleResourceRelation.setCreatedTime(date);
+            roleResourceRelation.setUpdatedTime(date);
+            roleResourceRelation.setCreatedBy("system");
+            roleResourceRelation.setUpdatedBy("system");
+            // 调用mapper
+            roleMapper.roleContextResource(roleResourceRelation);
+        }
     }
 }

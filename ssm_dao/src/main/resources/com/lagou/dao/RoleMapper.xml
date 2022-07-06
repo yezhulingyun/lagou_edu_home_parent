@@ -72,4 +72,53 @@
         delete from roles where id = #{id}
     </delete>
 
+    <!--<resultMap id="roleResourceCategoryResultMap" type="resourceCategory">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sort" column="sort"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedBy" column="updated_by"/>
+        <collection property="resourceList" select="" column="" ofType="resource">
+
+        </collection>
+    </resultMap>-->
+
+    <!-- 根据角色id查询关联的资源分类信息 -->
+    <select id="findResourceCategoryByRoleId" parameterType="int" resultType="resourceCategory">
+        SELECT DISTINCT
+            rc.*
+        FROM
+            resource r
+            INNER JOIN role_resource_relation rr
+                ON r.id = rr.resource_id
+            INNER JOIN resource_category rc
+                ON r.category_id = rc.id
+        WHERE rr.role_id = #{roleId}
+        ORDER BY rc.sort
+    </select>
+
+    <!-- 根据角色id查询关联的资源信息 -->
+    <select id="findResourceByRoleId" parameterType="int" resultType="resource">
+        SELECT
+            r.*
+        FROM
+            resource r
+            INNER JOIN role_resource_relation rr
+                ON r.id = rr.resource_id
+        WHERE rr.role_id = #{roleId}
+    </select>
+
+    <!-- 根据角色id从中间表中删除角色关联的资源信息 -->
+    <delete id="deleteRoleContextResource" parameterType="int">
+        delete from role_resource_relation where role_id = #{roleId}
+    </delete>
+
+    <!-- 为角色分配资源 -->
+    <insert id="roleContextResource" parameterType="roleResourceRelation">
+        insert into role_resource_relation values (null,#{resourceId},#{roleId},
+        #{createdTime},#{updatedTime},#{createdBy},#{updatedBy})
+    </insert>
+
 </mapper>
