@@ -37,4 +37,50 @@
         select * from menu where id = #{id}
     </select>
 
+    <!-- 添加菜单信息 -->
+    <insert id="saveMenu" parameterType="menu">
+        insert into menu values (null,#{parentId},#{href},#{icon},#{name},
+        #{description},#{orderNum},#{shown},#{level},#{createdTime},#{updatedTime},
+        #{createdBy},#{updatedBy})
+    </insert>
+    
+    <!-- 修改菜单信息 -->
+    <update id="updateMenu" parameterType="menu">
+        update menu 
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="href != null and href != ''">
+                href = #{href},
+            </if>
+            <if test="parentId != null and parentId != ''">
+                parent_id = #{parentId},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+            <if test="shown != null and shown != ''">
+                shown = #{shown},
+            </if>
+            <if test="orderNum != null and orderNum != ''">
+                order_num = #{orderNum},
+            </if>
+            <if test="level != null and level != ''">
+                level = #{level},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id}
+            </if>
+        </where>
+    </update>
+
 </mapper>

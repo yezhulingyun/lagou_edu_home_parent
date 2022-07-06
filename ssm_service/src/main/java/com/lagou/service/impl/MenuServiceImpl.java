@@ -6,6 +6,7 @@ import com.lagou.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,5 +39,31 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu findMenuById(int id) {
         return menuMapper.findMenuById(id);
+    }
+
+    /**
+     * 添加菜单信息
+     */
+    @Override
+    public void saveMenu(Menu menu) {
+        // 1. 补全信息
+        Date date = new Date();
+        menu.setCreatedTime(date);
+        menu.setUpdatedTime(date);
+        menu.setCreatedBy("system");
+        menu.setUpdatedBy("system");
+        // 2. 调用mapper
+        menuMapper.saveMenu(menu);
+    }
+
+    /**
+     * 修改菜单信息
+     */
+    @Override
+    public void updateMenu(Menu menu) {
+        // 1. 补全信息
+        menu.setUpdatedTime(new Date());
+        // 2. 调用mapper
+        menuMapper.updateMenu(menu);
     }
 }

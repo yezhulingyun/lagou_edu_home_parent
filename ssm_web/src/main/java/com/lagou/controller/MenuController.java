@@ -4,6 +4,7 @@ import com.lagou.domain.Menu;
 import com.lagou.domain.ResponseResult;
 import com.lagou.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,6 +54,23 @@ public class MenuController {
             map.put("menuInfo", menu);
             map.put("parentMenuList", parentMenuList);
             return new ResponseResult(true, 200, "修改操作回显信息成功", map);
+        }
+    }
+
+    /**
+     * 添加&修改菜单
+     */
+    @RequestMapping("/saveOrUpdateMenu")
+    public ResponseResult saveOrUpdateMenu(@RequestBody Menu menu) {
+        // 判断id是否为空
+        if (menu.getId() == null) {
+            // 添加操作
+            menuService.saveMenu(menu);
+            return new ResponseResult(true, 200, "添加菜单成功", null);
+        } else {
+            // 修改操作
+            menuService.updateMenu(menu);
+            return new ResponseResult(true, 200, "修改菜单成功", null);
         }
     }
 }
