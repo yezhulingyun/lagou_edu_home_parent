@@ -37,4 +37,9 @@ public interface CourseContentService {
      * 新增课时信息
      */
     public void saveLesson(CourseLesson lesson);
+
+    /**
+     * 修改课时信息
+     */
+    public void updateLesson(CourseLesson lesson);
 }
