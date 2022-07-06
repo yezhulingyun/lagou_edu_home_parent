@@ -20,4 +20,42 @@
         </where>
     </select>
 
+    <!-- 添加资源信息 -->
+    <insert id="saveResource" parameterType="resource">
+        insert into resource values (null,#{name},#{url},#{categoryId},#{description},
+        #{createdTime},#{updatedTime},#{createdBy},#{updatedBy})
+    </insert>
+
+    <!-- 修改资源信息 -->
+    <update id="updateResource" parameterType="resource">
+        update resource
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="url != null and url != ''">
+                url = #{url},
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                category_id = #{categoryId},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id}
+            </if>
+        </where>
+    </update>
+
+    <!-- 删除资源信息 -->
+    <delete id="deleteResource" parameterType="int">
+        delete from resource where id = #{id}
+    </delete>
+
 </mapper>

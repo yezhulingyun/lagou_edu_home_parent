@@ -25,4 +25,30 @@ public class ResourceController {
         PageInfo<Resource> pageInfo = resourceService.findAllResourceByPage(resourceVO);
         return new ResponseResult(true, 200, "资源信息分页多条件查询成功", pageInfo);
     }
+
+    /**
+     * 添加&修改资源信息
+     */
+    @RequestMapping("/saveOrUpdateResource")
+    public ResponseResult saveOrUpdateResource(@RequestBody Resource resource) {
+        // 判断id是否为空
+        if (resource.getId() == null) {
+            // 添加操作
+            resourceService.saveResource(resource);
+            return new ResponseResult(true, 200, "添加资源信息成功", null);
+        } else {
+            // 修改操作
+            resourceService.updateResource(resource);
+            return new ResponseResult(true, 200, "修改资源信息成功", null);
+        }
+    }
+
+    /**
+     * 删除资源信息
+     */
+    @RequestMapping("/deleteResource")
+    public ResponseResult deleteResource(int id) {
+        resourceService.deleteResource(id);
+        return new ResponseResult(true, 200, "删除资源信息成功", null);
+    }
 }
