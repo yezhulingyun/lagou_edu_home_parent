@@ -31,12 +31,13 @@ public class RoleController {
         return new ResponseResult(true, 200, "查询角色成功", roleList);
     }
 
-    /**
-     * 查询所有的父子菜单信息
-     */
+
     @Autowired
     private MenuService menuService;
 
+    /**
+     * 查询所有的父子菜单信息
+     */
     @RequestMapping("/findAllMenu")
     public ResponseResult findAllMenu() {
         List<Menu> menuList = menuService.findSubMenuListByPid(-1);
@@ -61,6 +62,23 @@ public class RoleController {
     public ResponseResult roleContextMenu(@RequestBody RoleMenuVO roleMenuVO) {
         roleService.roleContextMenu(roleMenuVO);
         return new ResponseResult(true, 200, "响应成功", null);
+    }
+
+    /**
+     * 添加&修改角色
+     */
+    @RequestMapping("/saveOrUpdateRole")
+    public ResponseResult saveOrUpdateRole(@RequestBody Role role) {
+        // 判断id是否为空
+        if (role.getId() == null) {
+            // 添加操作
+            roleService.saveRole(role);
+            return new ResponseResult(true, 200, "添加角色成功", null);
+        } else {
+            // 修改操作
+            roleService.updateRole(role);
+            return new ResponseResult(true, 200, "修改角色成功", null);
+        }
     }
 
     /**

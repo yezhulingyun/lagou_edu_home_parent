@@ -60,6 +60,32 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
+     * 添加角色
+     */
+    @Override
+    public void saveRole(Role role) {
+        // 1. 补全信息
+        Date date = new Date();
+        role.setCreatedTime(date);
+        role.setUpdatedTime(date);
+        role.setCreatedBy("system");
+        role.setUpdatedBy("system");
+        // 2. 调用mapper
+        roleMapper.saveRole(role);
+    }
+
+    /**
+     * 修改角色
+     */
+    @Override
+    public void updateRole(Role role) {
+        // 1. 补全信息
+        role.setUpdatedTime(new Date());
+        // 2. 调用mapper
+        roleMapper.updateRole(role);
+    }
+
+    /**
      * 删除角色
      */
     @Override

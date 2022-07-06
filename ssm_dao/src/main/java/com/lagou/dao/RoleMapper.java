@@ -28,6 +28,16 @@ public interface RoleMapper {
     public void roleContextMenu(Role_menu_relation role_menu_relation);
 
     /**
+     * 添加角色
+     */
+    public void saveRole(Role role);
+
+    /**
+     * 修改角色
+     */
+    public void updateRole(Role role);
+
+    /**
      * 删除角色
      */
     public void deleteRole(int id);

@@ -23,6 +23,16 @@ public interface RoleService {
     public void roleContextMenu(RoleMenuVO roleMenuVO);
 
     /**
+     * 添加角色
+     */
+    public void saveRole(Role role);
+
+    /**
+     * 修改角色
+     */
+    public void updateRole(Role role);
+
+    /**
      * 删除角色
      */
     public void deleteRole(int id);

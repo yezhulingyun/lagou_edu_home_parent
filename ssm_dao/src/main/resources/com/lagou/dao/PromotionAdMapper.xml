@@ -47,7 +47,7 @@
             <if test="spaceId != null and spaceId != ''">
                 spaceId = #{spaceId},
             </if>
-            <if test="link != null">
+            <if test="link != null and link != ''">
                 link = #{link},
             </if>
             <if test="status != null and status != '' or status == 0">

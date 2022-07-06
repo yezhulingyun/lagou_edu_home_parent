@@ -21,7 +21,20 @@
 
     <!-- 更新广告位 -->
     <update id="updatePromotionSpace" parameterType="promotionSpace">
-        update promotion_space set name = #{name},updateTime = #{updateTime} where id = #{id}
+        update promotion_space 
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id}
+            </if>
+        </where>
     </update>
 
 </mapper>

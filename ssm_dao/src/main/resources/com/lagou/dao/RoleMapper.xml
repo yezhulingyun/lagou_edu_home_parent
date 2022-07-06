@@ -37,6 +37,36 @@
         insert into role_menu_relation values(null,#{menuId},#{roleId},#{createdTime},#{updatedTime},#{createdBy},#{updatedBy})
     </insert>
 
+    <!-- 添加角色 -->
+    <insert id="saveRole" parameterType="role">
+        insert into roles values (null,#{code},#{name},#{description},
+        #{createdTime},#{updatedTime},#{createdBy},#{updatedBy})
+    </insert>
+    
+    <!-- 修改角色 -->
+    <update id="updateRole" parameterType="role">
+        update roles 
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="updatedTime != null">
+                updated_time = #{updatedTime},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id}
+            </if>
+        </where>
+    </update>
+
     <!-- 删除角色 -->
     <delete id="deleteRole" parameterType="int">
         delete from roles where id = #{id}
