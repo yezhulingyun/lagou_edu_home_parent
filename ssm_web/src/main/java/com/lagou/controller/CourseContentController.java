@@ -92,4 +92,15 @@ public class CourseContentController {
             return new ResponseResult(true, 200, "修改课时信息成功", null);
         }
     }
+
+    /**
+     * 修改课时状态
+     */
+    @RequestMapping("/updateLessonStatus")
+    public ResponseResult updateLessonStatus(int id, int status) {
+        courseContentService.updateLessonStatus(id, status);
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", status);
+        return new ResponseResult(true, 200, "修改课时状态成功", map);
+    }
 }

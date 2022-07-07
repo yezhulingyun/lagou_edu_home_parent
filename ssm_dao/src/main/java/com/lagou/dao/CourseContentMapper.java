@@ -42,4 +42,9 @@ public interface CourseContentMapper {
      * 修改课时信息
      */
     public void updateLesson(CourseLesson lesson);
+
+    /**
+     * 修改课时状态
+     */
+    public void updateLessonStatus(CourseLesson lesson);
 }

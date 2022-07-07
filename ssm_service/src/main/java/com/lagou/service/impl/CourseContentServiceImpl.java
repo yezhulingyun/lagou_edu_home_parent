@@ -104,4 +104,18 @@ public class CourseContentServiceImpl implements CourseContentService {
         // 2. 调用mapper
         courseContentMapper.updateLesson(lesson);
     }
+
+    /**
+     * 修改课时状态
+     */
+    @Override
+    public void updateLessonStatus(int id, int status) {
+        // 1. 封装数据
+        CourseLesson lesson = new CourseLesson();
+        lesson.setId(id);
+        lesson.setStatus(status);
+        lesson.setUpdateTime(new Date());
+        // 2. 调用mapper
+        courseContentMapper.updateLessonStatus(lesson);
+    }
 }
