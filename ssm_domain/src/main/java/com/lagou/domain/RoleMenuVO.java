@@ -6,6 +6,7 @@ public class RoleMenuVO {
 
     private Integer roleId;
     private List<Integer> menuIdList;
+    private User user;
 
     public Integer getRoleId() {
         return roleId;
@@ -21,6 +22,14 @@ public class RoleMenuVO {
 
     public void setMenuIdList(List<Integer> menuIdList) {
         this.menuIdList = menuIdList;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

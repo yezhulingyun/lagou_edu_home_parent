@@ -1,9 +1,6 @@
 package com.lagou.service;
 
-import com.lagou.domain.ResourceCategory;
-import com.lagou.domain.Role;
-import com.lagou.domain.RoleMenuVO;
-import com.lagou.domain.RoleResourceVO;
+import com.lagou.domain.*;
 
 import java.util.List;
 
@@ -27,12 +24,12 @@ public interface RoleService {
     /**
      * 添加角色
      */
-    public void saveRole(Role role);
+    public void saveRole(Role role, User user);
 
     /**
      * 修改角色
      */
-    public void updateRole(Role role);
+    public void updateRole(Role role, User user);
 
     /**
      * 删除角色

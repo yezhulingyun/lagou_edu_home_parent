@@ -1,13 +1,18 @@
 package com.lagou.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.lagou.domain.Menu;
+import com.lagou.domain.MenuVO;
 import com.lagou.domain.ResponseResult;
+import com.lagou.domain.User;
 import com.lagou.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +28,9 @@ public class MenuController {
      * 查询所有菜单信息
      */
     @RequestMapping("/findAllMenu")
-    public ResponseResult findAllMenu() {
-        List<Menu> allMenu = menuService.findAllMenu();
-        return new ResponseResult(true, 200, "查询所有菜单信息成功", allMenu);
+    public ResponseResult findAllMenu(MenuVO menuVO) {
+        PageInfo<Menu> pageInfo = menuService.findAllMenu(menuVO);
+        return new ResponseResult(true, 200, "查询所有菜单信息成功", pageInfo);
     }
 
     /**
@@ -61,15 +66,17 @@ public class MenuController {
      * 添加&修改菜单
      */
     @RequestMapping("/saveOrUpdateMenu")
-    public ResponseResult saveOrUpdateMenu(@RequestBody Menu menu) {
+    public ResponseResult saveOrUpdateMenu(@RequestBody Menu menu, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         // 判断id是否为空
         if (menu.getId() == null) {
             // 添加操作
-            menuService.saveMenu(menu);
+            menuService.saveMenu(menu, user);
             return new ResponseResult(true, 200, "添加菜单成功", null);
         } else {
             // 修改操作
-            menuService.updateMenu(menu);
+            menuService.updateMenu(menu, user);
             return new ResponseResult(true, 200, "修改菜单成功", null);
         }
     }

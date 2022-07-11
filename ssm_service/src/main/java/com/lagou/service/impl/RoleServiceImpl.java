@@ -43,7 +43,7 @@ public class RoleServiceImpl implements RoleService {
 
         // 清空中间表的关联关系
         roleMapper.deleteRoleContextMenu(roleMenuVO.getRoleId());
-
+        String operator = roleMenuVO.getUser() == null ? "system" : roleMenuVO.getUser().getName();
         // 为角色分配菜单
         for (Integer mid : roleMenuVO.getMenuIdList()) {
             Role_menu_relation role_menu_relation = new Role_menu_relation();
@@ -53,8 +53,8 @@ public class RoleServiceImpl implements RoleService {
             Date date = new Date();
             role_menu_relation.setCreatedTime(date);
             role_menu_relation.setUpdatedTime(date);
-            role_menu_relation.setCreatedBy("system");
-            role_menu_relation.setUpdatedBy("system");
+            role_menu_relation.setCreatedBy(operator);
+            role_menu_relation.setUpdatedBy(operator);
             roleMapper.roleContextMenu(role_menu_relation);
         }
     }
@@ -63,13 +63,14 @@ public class RoleServiceImpl implements RoleService {
      * 添加角色
      */
     @Override
-    public void saveRole(Role role) {
+    public void saveRole(Role role, User user) {
         // 1. 补全信息
         Date date = new Date();
         role.setCreatedTime(date);
         role.setUpdatedTime(date);
-        role.setCreatedBy("system");
-        role.setUpdatedBy("system");
+        String operator = user == null ? "system" : user.getName();
+        role.setCreatedBy(operator);
+        role.setUpdatedBy(operator);
         // 2. 调用mapper
         roleMapper.saveRole(role);
     }
@@ -78,8 +79,10 @@ public class RoleServiceImpl implements RoleService {
      * 修改角色
      */
     @Override
-    public void updateRole(Role role) {
+    public void updateRole(Role role, User user) {
         // 1. 补全信息
+        String operator = user == null ? "system" : user.getName();
+        role.setUpdatedBy(operator);
         role.setUpdatedTime(new Date());
         // 2. 调用mapper
         roleMapper.updateRole(role);

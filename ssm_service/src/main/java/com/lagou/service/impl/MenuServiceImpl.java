@@ -1,7 +1,11 @@
 package com.lagou.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lagou.dao.MenuMapper;
 import com.lagou.domain.Menu;
+import com.lagou.domain.MenuVO;
+import com.lagou.domain.User;
 import com.lagou.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,9 +32,11 @@ public class MenuServiceImpl implements MenuService {
      * 查询所有菜单信息
      */
     @Override
-    public List<Menu> findAllMenu() {
+    public PageInfo<Menu> findAllMenu(MenuVO menuVO) {
+        PageHelper.startPage(menuVO.getCurrentPage(), menuVO.getPageSize());
         List<Menu> allMenu = menuMapper.findAllMenu();
-        return allMenu;
+        PageInfo<Menu> pageInfo = new PageInfo<>(allMenu);
+        return pageInfo;
     }
 
     /**
@@ -45,13 +51,14 @@ public class MenuServiceImpl implements MenuService {
      * 添加菜单信息
      */
     @Override
-    public void saveMenu(Menu menu) {
+    public void saveMenu(Menu menu, User user) {
         // 1. 补全信息
         Date date = new Date();
         menu.setCreatedTime(date);
         menu.setUpdatedTime(date);
-        menu.setCreatedBy("system");
-        menu.setUpdatedBy("system");
+        String operator = user == null ? "system" : user.getName();
+        menu.setCreatedBy(operator);
+        menu.setUpdatedBy(operator);
         // 2. 调用mapper
         menuMapper.saveMenu(menu);
     }
@@ -60,9 +67,10 @@ public class MenuServiceImpl implements MenuService {
      * 修改菜单信息
      */
     @Override
-    public void updateMenu(Menu menu) {
+    public void updateMenu(Menu menu, User user) {
         // 1. 补全信息
         menu.setUpdatedTime(new Date());
+        menu.setUpdatedBy(user == null ? "system" : user.getName());
         // 2. 调用mapper
         menuMapper.updateMenu(menu);
     }

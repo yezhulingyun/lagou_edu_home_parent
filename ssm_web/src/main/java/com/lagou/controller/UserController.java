@@ -57,6 +57,7 @@ public class UserController {
             System.out.println(access_token);
             session.setAttribute("access_token", access_token);
             session.setAttribute("user_id", user2.getId());
+            session.setAttribute("user", user2);
 
             // 将查询出来的信息响应给前台
             Map<String, Object> map = new HashMap<>();

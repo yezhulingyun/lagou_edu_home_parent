@@ -22,7 +22,6 @@ public class PromotionAd {
     // 链接一
     private String link;
     // 开始时间
-
     private Date startTime;
     // 结束时间
     private Date endTime;
@@ -100,8 +99,6 @@ public class PromotionAd {
         this.link = link;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getStartTime() {
         return startTime;
     }
@@ -110,8 +107,6 @@ public class PromotionAd {
         this.startTime = startTime;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getEndTime() {
         return endTime;
     }

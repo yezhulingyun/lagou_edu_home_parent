@@ -21,10 +21,10 @@
             <result property="theme" column="theme"/>
             <result property="duration" column="duration"/>
             <result property="isFree" column="is_free"/>
-            <result property="createTime" column="create_time"/>
-            <result property="updateTime" column="update_time"/>
+            <result property="createTime" column="lesson_create_time"/>
+            <result property="updateTime" column="lesson_update_time"/>
             <result property="isDel" column="is_del"/>
-            <result property="orderNum" column="order_num"/>
+            <result property="orderNum" column="lesson_order_num"/>
             <result property="status" column="lesson_status"/>
         </collection>
     </resultMap>
@@ -39,10 +39,10 @@
             cl.theme,
             cl.duration,
             cl.is_free,
-            cl.create_time,
-            cl.update_time,
+            cl.create_time lesson_create_time,
+            cl.update_time lesson_update_time,
             cl.is_del,
-            cl.order_num,
+            cl.order_num lesson_order_num,
             cl.status lesson_status
         FROM
             course_section cs
@@ -121,7 +121,7 @@
             <if test="duration != null and duration != ''">
                 duration = #{duration},
             </if>
-            <if test="isFree != null and isFree != ''">
+            <if test="isFree != null and isFree != '' or isFree == 0">
                 is_free = #{isFree},
             </if>
             <if test="orderNum != null and orderNum != ''">
