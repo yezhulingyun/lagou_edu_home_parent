@@ -107,7 +107,10 @@ public class RoleController {
      * 为角色分配资源信息
      */
     @RequestMapping("/roleContextResource")
-    public ResponseResult roleContextResource(@RequestBody RoleResourceVO roleResourceVO) {
+    public ResponseResult roleContextResource(@RequestBody RoleResourceVO roleResourceVO, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        roleResourceVO.setUser(user);
         roleService.roleContextResource(roleResourceVO);
         return new ResponseResult(true, 200, "响应成功", null);
     }

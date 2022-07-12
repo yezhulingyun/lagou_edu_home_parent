@@ -2,6 +2,7 @@ package com.lagou.service.impl;
 
 import com.lagou.dao.ResourceCategoryMapper;
 import com.lagou.domain.ResourceCategory;
+import com.lagou.domain.User;
 import com.lagou.service.ResourceCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,14 @@ public class ResourceCategoryServiceImpl implements ResourceCategoryService {
      * 添加资源分类
      */
     @Override
-    public void saveResourceCategory(ResourceCategory resourceCategory) {
+    public void saveResourceCategory(ResourceCategory resourceCategory, User user) {
         // 补全信息
         Date date = new Date();
         resourceCategory.setCreatedTime(date);
         resourceCategory.setUpdatedTime(date);
-        resourceCategory.setCreatedBy("system");
-        resourceCategory.setUpdatedBy("system");
+        String operator = user == null ? "system" : user.getName();
+        resourceCategory.setCreatedBy(operator);
+        resourceCategory.setUpdatedBy(operator);
         // 调用mapper
         resourceCategoryMapper.saveResourceCategory(resourceCategory);
     }
@@ -42,9 +44,10 @@ public class ResourceCategoryServiceImpl implements ResourceCategoryService {
      * 修改资源分类
      */
     @Override
-    public void updateResourceCategory(ResourceCategory resourceCategory) {
+    public void updateResourceCategory(ResourceCategory resourceCategory, User user) {
         // 补全信息
         resourceCategory.setUpdatedTime(new Date());
+        resourceCategory.setUpdatedBy(user == null ? "system" : user.getName());
         // 调用mapper
         resourceCategoryMapper.updateResourceCategory(resourceCategory);
     }

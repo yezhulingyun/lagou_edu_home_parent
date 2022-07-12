@@ -129,6 +129,8 @@ public class RoleServiceImpl implements RoleService {
     public void roleContextResource(RoleResourceVO roleResourceVO) {
         // 1. 根据角色id清空中间表中当前角色关联的资源信息
         roleMapper.deleteRoleContextResource(roleResourceVO.getRoleId());
+        User user = roleResourceVO.getUser();
+        String operator = user == null ? "system" : user.getName();
         // 2. 重新在中间表中添加当前角色关联的资源信息
         for (Integer ri : roleResourceVO.getResourceIdList()) {
             // 封装数据
@@ -138,8 +140,8 @@ public class RoleServiceImpl implements RoleService {
             Date date = new Date();
             roleResourceRelation.setCreatedTime(date);
             roleResourceRelation.setUpdatedTime(date);
-            roleResourceRelation.setCreatedBy("system");
-            roleResourceRelation.setUpdatedBy("system");
+            roleResourceRelation.setCreatedBy(operator);
+            roleResourceRelation.setUpdatedBy(operator);
             // 调用mapper
             roleMapper.roleContextResource(roleResourceRelation);
         }

@@ -1,6 +1,7 @@
 package com.lagou.service;
 
 import com.lagou.domain.ResourceCategory;
+import com.lagou.domain.User;
 
 import java.util.List;
 
@@ -14,12 +15,12 @@ public interface ResourceCategoryService {
     /**
      * 添加资源分类
      */
-    public void saveResourceCategory(ResourceCategory resourceCategory);
+    public void saveResourceCategory(ResourceCategory resourceCategory, User user);
 
     /**
      * 修改资源分类
      */
-    public void updateResourceCategory(ResourceCategory resourceCategory);
+    public void updateResourceCategory(ResourceCategory resourceCategory, User user);
 
     /**
      * 删除资源分类

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.lagou.dao.ResourceMapper;
 import com.lagou.domain.Resource;
 import com.lagou.domain.ResourceVO;
+import com.lagou.domain.User;
 import com.lagou.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,13 +34,14 @@ public class ResourceServiceImpl implements ResourceService {
      * 添加资源信息
      */
     @Override
-    public void saveResource(Resource resource) {
+    public void saveResource(Resource resource, User user) {
         // 1. 补全信息
         Date date = new Date();
         resource.setCreatedTime(date);
         resource.setUpdatedTime(date);
-        resource.setCreatedBy("system");
-        resource.setUpdatedBy("system");
+        String operator = user == null ? "system" : user.getName();
+        resource.setCreatedBy(operator);
+        resource.setUpdatedBy(operator);
         // 2. 调用mapper
         resourceMapper.saveResource(resource);
     }
@@ -48,9 +50,10 @@ public class ResourceServiceImpl implements ResourceService {
      * 修改资源信息
      */
     @Override
-    public void updateResource(Resource resource) {
+    public void updateResource(Resource resource, User user) {
         // 1. 补全信息
         resource.setUpdatedTime(new Date());
+        resource.setUpdatedBy(user == null ? "system" : user.getName());
         // 2. 调用mapper
         resourceMapper.updateResource(resource);
     }

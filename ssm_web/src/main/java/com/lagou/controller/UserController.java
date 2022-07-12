@@ -93,7 +93,11 @@ public class UserController {
      * 为用户分配角色
      */
     @RequestMapping("/userContextRole")
-    public ResponseResult userContextRole(@RequestBody UserVO userVO) {
+    public ResponseResult userContextRole(@RequestBody UserVO userVO, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String username = user == null ? "system" : user.getName();
+        userVO.setUsername(username);
         userService.userContextRole(userVO);
         return new ResponseResult(true, 200, "分配角色成功", null);
     }

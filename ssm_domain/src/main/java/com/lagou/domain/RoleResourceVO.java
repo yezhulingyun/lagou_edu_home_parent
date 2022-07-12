@@ -6,6 +6,7 @@ public class RoleResourceVO {
 
     private Integer roleId;
     private List<Integer> resourceIdList;
+    private User user;
 
     public Integer getRoleId() {
         return roleId;
@@ -21,5 +22,13 @@ public class RoleResourceVO {
 
     public void setResourceIdList(List<Integer> resourceIdList) {
         this.resourceIdList = resourceIdList;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

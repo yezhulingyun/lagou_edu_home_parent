@@ -2,12 +2,15 @@ package com.lagou.controller;
 
 import com.lagou.domain.ResourceCategory;
 import com.lagou.domain.ResponseResult;
+import com.lagou.domain.User;
 import com.lagou.service.ResourceCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -30,15 +33,17 @@ public class ResourceCategoryController {
      * 添加&修改资源分类
      */
     @RequestMapping("/saveOrUpdateResourceCategory")
-    public ResponseResult saveOrUpdateResourceCategory(@RequestBody ResourceCategory resourceCategory) {
+    public ResponseResult saveOrUpdateResourceCategory(@RequestBody ResourceCategory resourceCategory, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         // 判断前端传递的id是否为空
         if (resourceCategory.getId() == null) {
             // 添加
-            resourceCategoryService.saveResourceCategory(resourceCategory);
+            resourceCategoryService.saveResourceCategory(resourceCategory, user);
             return new ResponseResult(true, 200, "添加资源分类成功", null);
         } else {
             // 修改
-            resourceCategoryService.updateResourceCategory(resourceCategory);
+            resourceCategoryService.updateResourceCategory(resourceCategory, user);
             return new ResponseResult(true, 200, "修改资源分类成功", null);
         }
     }

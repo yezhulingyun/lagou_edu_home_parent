@@ -97,8 +97,8 @@ public class UserServiceImpl implements UserService {
             Date date = new Date();
             user_role_relation.setCreatedTime(date);
             user_role_relation.setUpdatedTime(date);
-            user_role_relation.setCreatedBy("system");
-            user_role_relation.setUpdatedBy("system");
+            user_role_relation.setCreatedBy(userVO.getUsername());
+            user_role_relation.setUpdatedBy(userVO.getUsername());
 
             // 调用mapper
             userMapper.userContextRole(user_role_relation);
@@ -111,7 +111,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Object> getUserPermissions(int userId) {
         // 1. 根据用户id查询关联的角色信息
+        Map<String, Object> map = new HashMap<>();
         List<Role> roleList = userMapper.findUserRoleById(userId);
+        if (roleList.size() == 0) {
+            map.put("menuList", null);
+            map.put("resourceList", null);
+            return map;
+        }
         // 2. 把查询出的角色的id封装到集合中
         List<Integer> roleIds = new ArrayList<>();
         for (Role role : roleList) {
@@ -127,7 +133,6 @@ public class UserServiceImpl implements UserService {
         // 5. 根据角色id查询关联的资源信息
         List<Resource> resourceList = userMapper.findResourceByRoleId(roleIds);
         // 6. 封装数据并返回
-        Map<String, Object> map = new HashMap<>();
         map.put("menuList", parentMenuList);
         map.put("resourceList", resourceList);
 
